@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: paulbouwer/hello-kubernetes
+  tag: "1.8"
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: false
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
