@@ -3,9 +3,12 @@ resource "azurerm_subnet" "aks_subnet" {
   name                 = "snet-aks-${var.env}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = var.virtual_network_name
-  address_prefixes     = ["10.100.1.0/24"]
+  address_prefixes     = ["10.0.1.0/24"]
+
+  depends_on = [var.vnet_id]
 }
 
+# AKS
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.name
   location            = var.location
@@ -15,14 +18,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     # type                = "VirtualMachineScaleSets"
-    name                = "aksnp${var.env}"
-    node_count          = var.node_pool_min_count
-    vm_size             = var.vm_size_node_pool
-    os_disk_size_gb     = 30
-    vnet_subnet_id      = azurerm_subnet.aks_subnet.id
+    name = "aksnp${var.env}" # this name cant have "-" according to the restrictions
+
+    node_count      = var.node_pool_min_count
+    vm_size         = var.vm_size_node_pool
+    os_disk_size_gb = var.os_disk_size
+    vnet_subnet_id  = azurerm_subnet.aks_subnet.id
+
     enable_auto_scaling = true
-    max_count           = var.node_pool_max_count
     min_count           = var.node_pool_min_count
+    max_count           = var.node_pool_max_count
   }
 
   # This means that Azure will automatically create the required roles and permissions
@@ -30,14 +35,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  # service_principal {
-  #   client_id     = var.clientId
-  #   client_secret = var.clientSecret
-  # }
-
   role_based_access_control_enabled = true
 
   tags = {
-    environment = "dev"
+    environment = var.env
   }
 }

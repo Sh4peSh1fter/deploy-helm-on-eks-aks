@@ -8,8 +8,8 @@ variable "env" {
   description = "Environment name"
 }
 
-variable "resource_group" {
-  type        = map(any)
+variable "resource_group_name" {
+  type        = string
   description = "Resource group"
 }
 

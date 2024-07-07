@@ -10,6 +10,24 @@ variable "location" {
   default     = "US East"
 }
 
+variable "cidr" {
+  description = "AWS VPC cidr"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "azs" {
+  description = "AWS VPC availability zones map"
+  type        = map(string)
+  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
+}
+
+variable "location" {
+  type        = string
+  description = "AWS region where to create resources."
+  default     = "US East"
+}
+
 variable "vm_size_node_pool" {
   type        = string
   description = "VM Size of the node pool"

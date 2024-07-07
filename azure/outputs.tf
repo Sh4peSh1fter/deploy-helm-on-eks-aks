@@ -1,29 +1,29 @@
+# General
+output "location" {
+  value       = var.location
+  description = "Location of all the resources"
+}
+
+# Resource Group
 output "rg_name" {
   value       = module.rg.name
-  description = "Name of the Resource Group"
+  description = "Resource Group name"
 }
 
-output "rg_location" {
-  value       = module.rg.location
-  description = "Location of the Resource Group"
-}
-
+# Virtual Network
 output "vnet_name" {
   value       = module.vnet.name
-  description = "Name of the Virtual Network"
+  description = "Virtual Network name"
 }
 
+# AKS
 output "aks_name" {
-  value       = module.aks.aks_name
-  description = "Name of the AKS cluster"
+  value       = module.aks.name
+  description = "AKS cluster name"
 }
 
+# Application Gateway
 output "ag_name" {
-  value       = module.ag.ag_name
-  description = "Name of the Application Gateway used by AKS"
-}
-
-output "ag_fqdn" {
-  value       = module.ag.ag_fqdn
-  description = "FQDN of the Application Gateway"
+  value       = module.ag.name
+  description = "Application Gateway name"
 }
